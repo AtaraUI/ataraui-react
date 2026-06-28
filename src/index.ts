@@ -44,3 +44,31 @@ export type { RadioGroupProps, RadioOption } from './components/Radio'
 
 export { Switch } from './components/Switch'
 export type { SwitchProps } from './components/Switch'
+
+export {
+  Modal,
+  ModalHeader,
+  ModalTitle,
+  ModalDescription,
+  ModalBody,
+  ModalFooter,
+  modalVariants,
+} from './components/Modal'
+export type { ModalProps, ModalHeaderProps } from './components/Modal'
+
+export {
+  Drawer,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerDescription,
+  DrawerBody,
+  DrawerFooter,
+  drawerVariants,
+} from './components/Drawer'
+export type { DrawerProps, DrawerHeaderProps } from './components/Drawer'
+
+export { Tooltip } from './components/Tooltip'
+export type { TooltipProps } from './components/Tooltip'
+
+export { Popover } from './components/Popover'
+export type { PopoverProps } from './components/Popover'

@@ -47,11 +47,17 @@ Add the source and theme tokens to your `globals.css`:
 ## Usage
 
 ```tsx
+import React from 'react'
 import {
   Button,
   Input,
   Badge,
-  Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter,
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
   Avatar,
   Separator,
   Spinner,
@@ -59,9 +65,26 @@ import {
   Checkbox,
   RadioGroup,
   Switch,
+  Modal,
+  ModalHeader,
+  ModalTitle,
+  ModalDescription,
+  ModalBody,
+  ModalFooter,
+  Drawer,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerDescription,
+  DrawerBody,
+  DrawerFooter,
+  Tooltip,
+  Popover,
 } from '@ataraui/ataraui-react'
 
 export default function Page() {
+  const [modalOpen, setModalOpen] = React.useState(false)
+  const [drawerOpen, setDrawerOpen] = React.useState(false)
+
   return (
     <div>
       <Badge variant="default">New</Badge>
@@ -114,6 +137,48 @@ export default function Page() {
       />
 
       <Switch label="Notifications" description="Receive email notifications." />
+
+      <Button onClick={() => setModalOpen(true)}>Open modal</Button>
+      <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
+        <ModalHeader onClose={() => setModalOpen(false)}>
+          <ModalTitle>Confirm action</ModalTitle>
+          <ModalDescription>This action can be reviewed before continuing.</ModalDescription>
+        </ModalHeader>
+        <ModalBody>Use modals for focused workflows.</ModalBody>
+        <ModalFooter>
+          <Button variant="ghost" onClick={() => setModalOpen(false)}>Cancel</Button>
+          <Button onClick={() => setModalOpen(false)}>Continue</Button>
+        </ModalFooter>
+      </Modal>
+
+      <Button variant="outline" onClick={() => setDrawerOpen(true)}>Open drawer</Button>
+      <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)} side="right">
+        <DrawerHeader onClose={() => setDrawerOpen(false)}>
+          <DrawerTitle>Settings</DrawerTitle>
+          <DrawerDescription>Manage preferences without leaving the page.</DrawerDescription>
+        </DrawerHeader>
+        <DrawerBody>Drawer content goes here.</DrawerBody>
+        <DrawerFooter>
+          <Button onClick={() => setDrawerOpen(false)}>Save</Button>
+        </DrawerFooter>
+      </Drawer>
+
+      <Tooltip content="Helpful context" side="top">
+        <Button variant="outline">Hover me</Button>
+      </Tooltip>
+
+      <Popover
+        side="bottom"
+        align="start"
+        content={({ close }) => (
+          <div className="flex w-56 flex-col gap-3">
+            <p className="font-medium">Account settings</p>
+            <Button size="sm" onClick={close}>Done</Button>
+          </div>
+        )}
+      >
+        <Button variant="outline">Open popover</Button>
+      </Popover>
     </div>
   )
 }
@@ -134,6 +199,10 @@ export default function Page() {
 | `Checkbox` | — | ✅ Ready |
 | `RadioGroup` | `vertical` `horizontal` | ✅ Ready |
 | `Switch` | — | ✅ Ready |
+| `Modal` | `sm` `md` `lg` `xl` `full` | ✅ Ready |
+| `Drawer` | `left` `right` `top` `bottom` | ✅ Ready |
+| `Tooltip` | `top` `bottom` `left` `right` | ✅ Ready |
+| `Popover` | `top` `bottom` `left` `right` · `start` `center` `end` | ✅ Ready |
 
 ## Button Props
 
@@ -225,6 +294,49 @@ export default function Page() {
 | `defaultChecked` | `boolean` | Default checked state (uncontrolled) |
 | `onChange` | `ChangeEventHandler` | Change handler |
 
+## Modal Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `open` | `boolean` | — | Controls whether the modal is visible |
+| `onClose` | `() => void` | — | Called when the modal should close |
+| `children` | `ReactNode` | — | Modal content |
+| `size` | `sm` \| `md` \| `lg` \| `xl` \| `full` | `md` | Modal width |
+| `closeOnOverlayClick` | `boolean` | `true` | Close when the overlay is clicked |
+
+## Drawer Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `open` | `boolean` | — | Controls whether the drawer is visible |
+| `onClose` | `() => void` | — | Called when the drawer should close |
+| `children` | `ReactNode` | — | Drawer content |
+| `side` | `left` \| `right` \| `top` \| `bottom` | `right` | Drawer placement |
+| `size` | `sm` \| `md` \| `lg` \| `full` | `md` | Drawer width for left/right placements |
+| `closeOnOverlayClick` | `boolean` | `true` | Close when the overlay is clicked |
+
+## Tooltip Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `content` | `ReactNode` | — | Tooltip content |
+| `children` | `ReactNode` | — | Tooltip trigger |
+| `side` | `top` \| `bottom` \| `left` \| `right` | `top` | Tooltip placement |
+| `delay` | `number` | `300` | Delay before showing the tooltip, in milliseconds |
+
+## Popover Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `content` | `ReactNode` \| `(controls) => ReactNode` | — | Popover content, optionally with `close`, `open`, and `setOpen` controls |
+| `children` | `ReactNode` | — | Popover trigger |
+| `side` | `top` \| `bottom` \| `left` \| `right` | `bottom` | Popover placement |
+| `align` | `start` \| `center` \| `end` | `center` | Popover alignment relative to the trigger |
+| `open` | `boolean` | — | Controlled open state |
+| `defaultOpen` | `boolean` | `false` | Initial open state for uncontrolled usage |
+| `onOpenChange` | `(open: boolean) => void` | — | Called when open state changes |
+| `closeOnOutsideClick` | `boolean` | `true` | Close when clicking outside the popover |
+
 ## Development
 
 ```bash
@@ -257,7 +369,7 @@ npm publish
 | **v0.1.0** ✅ | `Button` `Input` `Badge` | Core + Tailwind v4 |
 | **v0.2.0** ✅ | `Card` `Avatar` `Separator` `Spinner` | Layout primitives |
 | **v0.3.0** ✅ | `Select` `Checkbox` `Radio` `Switch` | Form components |
-| **v0.4.0** | `Modal/Dialog` `Drawer` `Tooltip` `Popover` | Overlay components |
+| **v0.4.0** ✅ | `Modal/Dialog` `Drawer` `Tooltip` `Popover` | Overlay components |
 | **v0.5.0** | `Toast/Alert` `Progress` `Skeleton` | Feedback components |
 | **v0.6.0** | `Table` `Tabs` `Accordion` | Data display |
 | **v0.7.0** | Dark mode · Storybook docs | DX improvements |
@@ -271,4 +383,4 @@ Contributions are welcome! Feel free to open an issue or submit a pull request.
 
 ## License
 
-MIT © [Ryo Kurniawan](https://github.com/ryo-kurniawan)
+MIT © [AtaraUI](https://github.com/AtaraUI)
