@@ -47,18 +47,26 @@ Add the source and theme tokens to your `globals.css`:
 ## Usage
 
 ```tsx
-import { Button, Input, Badge, Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, Avatar, Separator, Spinner } from '@ataraui/ataraui-react'
+import {
+  Button,
+  Input,
+  Badge,
+  Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter,
+  Avatar,
+  Separator,
+  Spinner,
+  Select,
+  Checkbox,
+  RadioGroup,
+  Switch,
+} from '@ataraui/ataraui-react'
 
 export default function Page() {
   return (
     <div>
       <Badge variant="default">New</Badge>
 
-      <Input
-        label="Email"
-        placeholder="you@example.com"
-        hint="We will never spam you."
-      />
+      <Input label="Email" placeholder="you@example.com" hint="We will never spam you." />
 
       <Button variant="primary" size="md">Ship it</Button>
       <Button variant="outline" isLoading>Loading...</Button>
@@ -83,6 +91,29 @@ export default function Page() {
 
       <Spinner size="md" />
       <Spinner size="md" label="Loading data..." />
+
+      <Select
+        label="Country"
+        placeholder="Select a country..."
+        options={[
+          { value: 'id', label: 'Indonesia' },
+          { value: 'sg', label: 'Singapore' },
+        ]}
+      />
+
+      <Checkbox label="Accept terms" />
+      <Checkbox label="Remember me" description="Stay logged in for 30 days." />
+
+      <RadioGroup
+        name="plan"
+        label="Billing Plan"
+        options={[
+          { value: 'monthly', label: 'Monthly' },
+          { value: 'yearly', label: 'Yearly' },
+        ]}
+      />
+
+      <Switch label="Notifications" description="Receive email notifications." />
     </div>
   )
 }
@@ -99,6 +130,10 @@ export default function Page() {
 | `Avatar` | — | ✅ Ready |
 | `Separator` | `horizontal` `vertical` | ✅ Ready |
 | `Spinner` | — | ✅ Ready |
+| `Select` | `default` `error` | ✅ Ready |
+| `Checkbox` | — | ✅ Ready |
+| `RadioGroup` | `vertical` `horizontal` | ✅ Ready |
+| `Switch` | — | ✅ Ready |
 
 ## Button Props
 
@@ -147,6 +182,49 @@ export default function Page() {
 | `size` | `xs` \| `sm` \| `md` \| `lg` \| `xl` | `md` | Spinner size |
 | `label` | `string` | — | Text label below spinner |
 
+## Select Props
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `label` | `string` | Label displayed above the select |
+| `error` | `string` | Error message (also triggers error state) |
+| `hint` | `string` | Helper text displayed below the select |
+| `placeholder` | `string` | Placeholder option text |
+| `options` | `SelectOption[]` | Array of `{ value, label, disabled? }` |
+| `selectSize` | `sm` \| `md` \| `lg` | Select height size |
+
+## Checkbox Props
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `label` | `string` | Label displayed next to the checkbox |
+| `description` | `string` | Helper text below the label |
+| `error` | `string` | Error message below the checkbox |
+
+## RadioGroup Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `name` | `string` | — | Input group name (required) |
+| `options` | `RadioOption[]` | — | Array of `{ value, label, description?, disabled? }` |
+| `value` | `string` | — | Controlled value |
+| `onChange` | `(value: string) => void` | — | Change handler |
+| `label` | `string` | — | Group label |
+| `orientation` | `vertical` \| `horizontal` | `vertical` | Layout direction |
+| `error` | `string` | — | Error message |
+| `hint` | `string` | — | Helper text |
+
+## Switch Props
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `label` | `string` | Label displayed next to the switch |
+| `description` | `string` | Helper text below the label |
+| `error` | `string` | Error message below the switch |
+| `checked` | `boolean` | Controlled checked state |
+| `defaultChecked` | `boolean` | Default checked state (uncontrolled) |
+| `onChange` | `ChangeEventHandler` | Change handler |
+
 ## Development
 
 ```bash
@@ -178,7 +256,7 @@ npm publish
 |---------|-----------|----------|
 | **v0.1.0** ✅ | `Button` `Input` `Badge` | Core + Tailwind v4 |
 | **v0.2.0** ✅ | `Card` `Avatar` `Separator` `Spinner` | Layout primitives |
-| **v0.3.0** | `Select` `Checkbox` `Radio` `Switch` | Form components |
+| **v0.3.0** ✅ | `Select` `Checkbox` `Radio` `Switch` | Form components |
 | **v0.4.0** | `Modal/Dialog` `Drawer` `Tooltip` `Popover` | Overlay components |
 | **v0.5.0** | `Toast/Alert` `Progress` `Skeleton` | Feedback components |
 | **v0.6.0** | `Table` `Tabs` `Accordion` | Data display |
