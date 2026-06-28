@@ -44,6 +44,14 @@ Add the source and theme tokens to your `globals.css`:
 }
 ```
 
+> For the indeterminate `Progress` animation, also add this to your `globals.css`:
+> ```css
+> @keyframes indeterminate {
+>   0%   { transform: translateX(-100%); }
+>   100% { transform: translateX(400%); }
+> }
+> ```
+
 ## Usage
 
 ```tsx
@@ -79,6 +87,14 @@ import {
   DrawerFooter,
   Tooltip,
   Popover,
+  ToastProvider,
+  Toaster,
+  useToast,
+  Alert,
+  AlertTitle,
+  AlertDescription,
+  Progress,
+  Skeleton,
 } from '@ataraui/ataraui-react'
 
 export default function Page() {
@@ -86,100 +102,114 @@ export default function Page() {
   const [drawerOpen, setDrawerOpen] = React.useState(false)
 
   return (
-    <div>
-      <Badge variant="default">New</Badge>
+    <ToastProvider>
+      <div>
+        <Badge variant="default">New</Badge>
 
-      <Input label="Email" placeholder="you@example.com" hint="We will never spam you." />
+        <Input label="Email" placeholder="you@example.com" hint="We will never spam you." />
 
-      <Button variant="primary" size="md">Ship it</Button>
-      <Button variant="outline" isLoading>Loading...</Button>
+        <Button variant="primary" size="md">Ship it</Button>
+        <Button variant="outline" isLoading>Loading...</Button>
 
-      <Card variant="elevated">
-        <CardHeader>
-          <CardTitle>Card Title</CardTitle>
-          <CardDescription>Card description here.</CardDescription>
-        </CardHeader>
-        <CardContent>Content goes here.</CardContent>
-        <CardFooter>
-          <Button variant="primary" size="sm">Confirm</Button>
-          <Button variant="ghost" size="sm">Cancel</Button>
-        </CardFooter>
-      </Card>
+        <Card variant="elevated">
+          <CardHeader>
+            <CardTitle>Card Title</CardTitle>
+            <CardDescription>Card description here.</CardDescription>
+          </CardHeader>
+          <CardContent>Content goes here.</CardContent>
+          <CardFooter>
+            <Button variant="primary" size="sm">Confirm</Button>
+            <Button variant="ghost" size="sm">Cancel</Button>
+          </CardFooter>
+        </Card>
 
-      <Avatar src="https://github.com/ryo.png" alt="Ryo" size="md" />
-      <Avatar fallback="Ryo Kurniawan" size="md" />
+        <Avatar src="https://github.com/ryo.png" alt="Ryo" size="md" />
+        <Avatar fallback="Ryo Kurniawan" size="md" />
 
-      <Separator />
-      <Separator label="OR" />
+        <Separator />
+        <Separator label="OR" />
 
-      <Spinner size="md" />
-      <Spinner size="md" label="Loading data..." />
+        <Spinner size="md" />
+        <Spinner size="md" label="Loading data..." />
 
-      <Select
-        label="Country"
-        placeholder="Select a country..."
-        options={[
-          { value: 'id', label: 'Indonesia' },
-          { value: 'sg', label: 'Singapore' },
-        ]}
-      />
+        <Select
+          label="Country"
+          placeholder="Select a country..."
+          options={[
+            { value: 'id', label: 'Indonesia' },
+            { value: 'sg', label: 'Singapore' },
+          ]}
+        />
 
-      <Checkbox label="Accept terms" />
-      <Checkbox label="Remember me" description="Stay logged in for 30 days." />
+        <Checkbox label="Accept terms" />
+        <Checkbox label="Remember me" description="Stay logged in for 30 days." />
 
-      <RadioGroup
-        name="plan"
-        label="Billing Plan"
-        options={[
-          { value: 'monthly', label: 'Monthly' },
-          { value: 'yearly', label: 'Yearly' },
-        ]}
-      />
+        <RadioGroup
+          name="plan"
+          label="Billing Plan"
+          options={[
+            { value: 'monthly', label: 'Monthly' },
+            { value: 'yearly', label: 'Yearly' },
+          ]}
+        />
 
-      <Switch label="Notifications" description="Receive email notifications." />
+        <Switch label="Notifications" description="Receive email notifications." />
 
-      <Button onClick={() => setModalOpen(true)}>Open modal</Button>
-      <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
-        <ModalHeader onClose={() => setModalOpen(false)}>
-          <ModalTitle>Confirm action</ModalTitle>
-          <ModalDescription>This action can be reviewed before continuing.</ModalDescription>
-        </ModalHeader>
-        <ModalBody>Use modals for focused workflows.</ModalBody>
-        <ModalFooter>
-          <Button variant="ghost" onClick={() => setModalOpen(false)}>Cancel</Button>
-          <Button onClick={() => setModalOpen(false)}>Continue</Button>
-        </ModalFooter>
-      </Modal>
+        <Button onClick={() => setModalOpen(true)}>Open modal</Button>
+        <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
+          <ModalHeader onClose={() => setModalOpen(false)}>
+            <ModalTitle>Confirm action</ModalTitle>
+            <ModalDescription>This action can be reviewed before continuing.</ModalDescription>
+          </ModalHeader>
+          <ModalBody>Use modals for focused workflows.</ModalBody>
+          <ModalFooter>
+            <Button variant="ghost" onClick={() => setModalOpen(false)}>Cancel</Button>
+            <Button onClick={() => setModalOpen(false)}>Continue</Button>
+          </ModalFooter>
+        </Modal>
 
-      <Button variant="outline" onClick={() => setDrawerOpen(true)}>Open drawer</Button>
-      <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)} side="right">
-        <DrawerHeader onClose={() => setDrawerOpen(false)}>
-          <DrawerTitle>Settings</DrawerTitle>
-          <DrawerDescription>Manage preferences without leaving the page.</DrawerDescription>
-        </DrawerHeader>
-        <DrawerBody>Drawer content goes here.</DrawerBody>
-        <DrawerFooter>
-          <Button onClick={() => setDrawerOpen(false)}>Save</Button>
-        </DrawerFooter>
-      </Drawer>
+        <Button variant="outline" onClick={() => setDrawerOpen(true)}>Open drawer</Button>
+        <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)} side="right">
+          <DrawerHeader onClose={() => setDrawerOpen(false)}>
+            <DrawerTitle>Settings</DrawerTitle>
+            <DrawerDescription>Manage preferences without leaving the page.</DrawerDescription>
+          </DrawerHeader>
+          <DrawerBody>Drawer content goes here.</DrawerBody>
+          <DrawerFooter>
+            <Button onClick={() => setDrawerOpen(false)}>Save</Button>
+          </DrawerFooter>
+        </Drawer>
 
-      <Tooltip content="Helpful context" side="top">
-        <Button variant="outline">Hover me</Button>
-      </Tooltip>
+        <Tooltip content="Helpful context" side="top">
+          <Button variant="outline">Hover me</Button>
+        </Tooltip>
 
-      <Popover
-        side="bottom"
-        align="start"
-        content={({ close }) => (
-          <div className="flex w-56 flex-col gap-3">
-            <p className="font-medium">Account settings</p>
-            <Button size="sm" onClick={close}>Done</Button>
-          </div>
-        )}
-      >
-        <Button variant="outline">Open popover</Button>
-      </Popover>
-    </div>
+        <Popover
+          side="bottom"
+          align="start"
+          content={({ close }) => (
+            <div className="flex w-56 flex-col gap-3">
+              <p className="font-medium">Account settings</p>
+              <Button size="sm" onClick={close}>Done</Button>
+            </div>
+          )}
+        >
+          <Button variant="outline">Open popover</Button>
+        </Popover>
+
+        <Alert variant="success" onClose={() => {}}>
+          <AlertTitle>Success!</AlertTitle>
+          <AlertDescription>Your changes have been saved.</AlertDescription>
+        </Alert>
+
+        <Progress value={75} size="md" label="Uploading..." showLabel />
+
+        <Skeleton variant="circle" width={40} height={40} />
+        <Skeleton variant="text" width="60%" />
+        <Skeleton variant="rect" height={120} />
+      </div>
+      <Toaster position="bottom-right" />
+    </ToastProvider>
   )
 }
 ```
@@ -203,6 +233,10 @@ export default function Page() {
 | `Drawer` | `left` `right` `top` `bottom` | ✅ Ready |
 | `Tooltip` | `top` `bottom` `left` `right` | ✅ Ready |
 | `Popover` | `top` `bottom` `left` `right` · `start` `center` `end` | ✅ Ready |
+| `Alert` | `default` `success` `warning` `destructive` | ✅ Ready |
+| `Progress` | `sm` `md` `lg` | ✅ Ready |
+| `Skeleton` | `text` `circle` `rect` | ✅ Ready |
+| `ToastProvider` + `Toaster` | `default` `success` `warning` `destructive` | ✅ Ready |
 
 ## Button Props
 
@@ -337,6 +371,77 @@ export default function Page() {
 | `onOpenChange` | `(open: boolean) => void` | — | Called when open state changes |
 | `closeOnOutsideClick` | `boolean` | `true` | Close when clicking outside the popover |
 
+## Alert Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `default` \| `success` \| `warning` \| `destructive` | `default` | Visual style |
+| `icon` | `ReactNode` | — | Icon displayed on the left |
+| `onClose` | `() => void` | — | Show dismiss button and handle close |
+
+## Progress Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `number` | — | Value between 0–100. Omit for indeterminate |
+| `size` | `sm` \| `md` \| `lg` | `md` | Bar height |
+| `label` | `string` | — | Text label above the bar |
+| `showLabel` | `boolean` | `false` | Show percentage value on the right |
+
+## Skeleton Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `text` \| `circle` \| `rect` | `rect` | Shape of the skeleton |
+| `width` | `string` \| `number` | — | Width (number → px, string → as-is) |
+| `height` | `string` \| `number` | — | Height (number → px, string → as-is) |
+
+## Toast
+
+Wrap your app once with `ToastProvider` and place `Toaster` inside it:
+
+```tsx
+// layout.tsx or _app.tsx
+import { ToastProvider, Toaster } from '@ataraui/ataraui-react'
+
+export default function Layout({ children }) {
+  return (
+    <ToastProvider>
+      {children}
+      <Toaster position="bottom-right" />
+    </ToastProvider>
+  )
+}
+```
+
+Then use the `useToast` hook anywhere inside the tree:
+
+```tsx
+import { useToast } from '@ataraui/ataraui-react'
+
+const { toast, dismiss, dismissAll } = useToast()
+
+toast({ title: 'Saved!', description: 'Your changes were saved.', variant: 'success' })
+```
+
+## Toaster Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `position` | `top-left` \| `top-center` \| `top-right` \| `bottom-left` \| `bottom-center` \| `bottom-right` | `bottom-right` | Toast position on screen |
+| `defaultDuration` | `number` | `4000` | Auto-dismiss duration in ms. Pass `0` to disable |
+
+## Toast Options (`useToast`)
+
+| Option | Type | Description |
+|--------|------|-------------|
+| `title` | `string` | Main toast message |
+| `description` | `string` | Supporting text below the title |
+| `variant` | `default` \| `success` \| `warning` \| `destructive` | Visual style |
+| `duration` | `number` | Override `defaultDuration` for this toast |
+| `icon` | `ReactNode` | Icon on the left |
+| `action` | `{ label: string, onClick: () => void }` | Action button inside the toast |
+
 ## Development
 
 ```bash
@@ -370,7 +475,7 @@ npm publish
 | **v0.2.0** ✅ | `Card` `Avatar` `Separator` `Spinner` | Layout primitives |
 | **v0.3.0** ✅ | `Select` `Checkbox` `Radio` `Switch` | Form components |
 | **v0.4.0** ✅ | `Modal/Dialog` `Drawer` `Tooltip` `Popover` | Overlay components |
-| **v0.5.0** | `Toast/Alert` `Progress` `Skeleton` | Feedback components |
+| **v0.5.0** ✅ | `Toast` `Alert` `Progress` `Skeleton` | Feedback components |
 | **v0.6.0** | `Table` `Tabs` `Accordion` | Data display |
 | **v0.7.0** | Dark mode · Storybook docs | DX improvements |
 | **v0.8.0** | `Navbar` `Sidebar` `Breadcrumb` | Navigation |
