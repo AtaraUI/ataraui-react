@@ -47,23 +47,42 @@ Add the source and theme tokens to your `globals.css`:
 ## Usage
 
 ```tsx
-import { Button, Input, Badge } from '@ataraui/ataraui-react'
+import { Button, Input, Badge, Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, Avatar, Separator, Spinner } from '@ataraui/ataraui-react'
 
 export default function Page() {
   return (
     <div>
       <Badge variant="default">New</Badge>
+
       <Input
         label="Email"
         placeholder="you@example.com"
         hint="We will never spam you."
       />
-      <Button variant="primary" size="md">
-        Ship it
-      </Button>
-      <Button variant="outline" isLoading>
-        Loading...
-      </Button>
+
+      <Button variant="primary" size="md">Ship it</Button>
+      <Button variant="outline" isLoading>Loading...</Button>
+
+      <Card variant="elevated">
+        <CardHeader>
+          <CardTitle>Card Title</CardTitle>
+          <CardDescription>Card description here.</CardDescription>
+        </CardHeader>
+        <CardContent>Content goes here.</CardContent>
+        <CardFooter>
+          <Button variant="primary" size="sm">Confirm</Button>
+          <Button variant="ghost" size="sm">Cancel</Button>
+        </CardFooter>
+      </Card>
+
+      <Avatar src="https://github.com/ryo.png" alt="Ryo" size="md" />
+      <Avatar fallback="Ryo Kurniawan" size="md" />
+
+      <Separator />
+      <Separator label="OR" />
+
+      <Spinner size="md" />
+      <Spinner size="md" label="Loading data..." />
     </div>
   )
 }
@@ -73,9 +92,13 @@ export default function Page() {
 
 | Component | Variants | Status |
 |-----------|----------|--------|
-| `Button`  | `primary` `secondary` `outline` `ghost` `destructive` | ✅ Ready |
-| `Input`   | `default` `error` | ✅ Ready |
-| `Badge`   | `default` `secondary` `outline` `success` `warning` `destructive` | ✅ Ready |
+| `Button` | `primary` `secondary` `outline` `ghost` `destructive` | ✅ Ready |
+| `Input` | `default` `error` | ✅ Ready |
+| `Badge` | `default` `secondary` `outline` `success` `warning` `destructive` | ✅ Ready |
+| `Card` | `elevated` `outlined` `ghost` | ✅ Ready |
+| `Avatar` | — | ✅ Ready |
+| `Separator` | `horizontal` `vertical` | ✅ Ready |
+| `Spinner` | — | ✅ Ready |
 
 ## Button Props
 
@@ -93,6 +116,36 @@ export default function Page() {
 | `error` | `string` | Error message (also triggers error state) |
 | `hint` | `string` | Helper text displayed below the input |
 | `inputSize` | `sm` \| `md` \| `lg` | Input height size |
+
+## Card Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `elevated` \| `outlined` \| `ghost` | `elevated` | Visual style |
+| `padding` | `none` \| `sm` \| `md` \| `lg` | `md` | Inner padding |
+
+## Avatar Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `src` | `string` | — | Image URL |
+| `alt` | `string` | — | Image alt text |
+| `fallback` | `string` | — | Name for initials fallback |
+| `size` | `xs` \| `sm` \| `md` \| `lg` \| `xl` | `md` | Avatar size |
+
+## Separator Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `orientation` | `horizontal` \| `vertical` | `horizontal` | Direction |
+| `label` | `string` | — | Text label in the middle |
+
+## Spinner Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `size` | `xs` \| `sm` \| `md` \| `lg` \| `xl` | `md` | Spinner size |
+| `label` | `string` | — | Text label below spinner |
 
 ## Development
 
@@ -124,12 +177,12 @@ npm publish
 | Version | Components | Category |
 |---------|-----------|----------|
 | **v0.1.0** ✅ | `Button` `Input` `Badge` | Core + Tailwind v4 |
-| **v0.2.0** | `Card` `Avatar` `Separator` `Spinner` | Layout primitives |
+| **v0.2.0** ✅ | `Card` `Avatar` `Separator` `Spinner` | Layout primitives |
 | **v0.3.0** | `Select` `Checkbox` `Radio` `Switch` | Form components |
 | **v0.4.0** | `Modal/Dialog` `Drawer` `Tooltip` `Popover` | Overlay components |
 | **v0.5.0** | `Toast/Alert` `Progress` `Skeleton` | Feedback components |
 | **v0.6.0** | `Table` `Tabs` `Accordion` | Data display |
-| **v0.7.0** | Dark mode `Storybook` docs | DX improvements |
+| **v0.7.0** | Dark mode · Storybook docs | DX improvements |
 | **v0.8.0** | `Navbar` `Sidebar` `Breadcrumb` | Navigation |
 | **v0.9.0** | `DatePicker` `Combobox` `FileUpload` | Advanced inputs |
 | **v1.0.0** 🎯 | API stable · Full docs · A11y tested · ataraui.com live | Stable release |
