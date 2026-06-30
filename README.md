@@ -95,6 +95,22 @@ import {
   AlertDescription,
   Progress,
   Skeleton,
+  Tabs,
+  TabsList,
+  TabsTrigger,
+  TabsContent,
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+  Table,
+  TableHeader,
+  TableBody,
+  TableFooter,
+  TableRow,
+  TableHead,
+  TableCell,
+  TableCaption,
 } from '@ataraui/ataraui-react'
 
 export default function Page() {
@@ -207,6 +223,44 @@ export default function Page() {
         <Skeleton variant="circle" width={40} height={40} />
         <Skeleton variant="text" width="60%" />
         <Skeleton variant="rect" height={120} />
+
+        <Tabs defaultValue="account">
+          <TabsList>
+            <TabsTrigger value="account">Account</TabsTrigger>
+            <TabsTrigger value="password">Password</TabsTrigger>
+          </TabsList>
+          <TabsContent value="account">Account content here.</TabsContent>
+          <TabsContent value="password">Password content here.</TabsContent>
+        </Tabs>
+
+        <Accordion type="single" defaultValue="item-1">
+          <AccordionItem value="item-1">
+            <AccordionTrigger>What is AtaraUI?</AccordionTrigger>
+            <AccordionContent>A calm, composable component library.</AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-2">
+            <AccordionTrigger>Is it free?</AccordionTrigger>
+            <AccordionContent>Yes, MIT licensed.</AccordionContent>
+          </AccordionItem>
+        </Accordion>
+
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Name</TableHead>
+              <TableHead>Email</TableHead>
+              <TableHead>Role</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableCell>Ryo Kurniawan</TableCell>
+              <TableCell>ryo@example.com</TableCell>
+              <TableCell>Admin</TableCell>
+            </TableRow>
+          </TableBody>
+          <TableCaption>A list of your team members.</TableCaption>
+        </Table>
       </div>
       <Toaster position="bottom-right" />
     </ToastProvider>
@@ -237,6 +291,9 @@ export default function Page() {
 | `Progress` | `sm` `md` `lg` | ✅ Ready |
 | `Skeleton` | `text` `circle` `rect` | ✅ Ready |
 | `ToastProvider` + `Toaster` | `default` `success` `warning` `destructive` | ✅ Ready |
+| `Tabs` | `default` `outline` `pills` | ✅ Ready |
+| `Accordion` | `default` `ghost` `outlined` | ✅ Ready |
+| `Table` | `default` `striped` `bordered` | ✅ Ready |
 
 ## Button Props
 
@@ -442,6 +499,38 @@ toast({ title: 'Saved!', description: 'Your changes were saved.', variant: 'succ
 | `icon` | `ReactNode` | Icon on the left |
 | `action` | `{ label: string, onClick: () => void }` | Action button inside the toast |
 
+## Tabs Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `default` \| `outline` \| `pills` | `default` | Visual style |
+| `value` | `string` | — | Controlled active tab |
+| `defaultValue` | `string` | — | Initial active tab (uncontrolled) |
+| `onChange` | `(value: string) => void` | — | Called when active tab changes |
+
+## Accordion Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `type` | `single` \| `multiple` | `single` | Allow one or multiple items open at once |
+| `variant` | `default` \| `ghost` \| `outlined` | `default` | Visual style |
+| `value` | `string` \| `string[]` | — | Controlled open item(s) |
+| `defaultValue` | `string` \| `string[]` | — | Initial open item(s) (uncontrolled) |
+| `onChange` | `(value: string \| string[]) => void` | — | Called when open state changes |
+
+## AccordionItem Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string` | — | Unique identifier for this item (required) |
+| `disabled` | `boolean` | `false` | Disable this item |
+
+## Table Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `default` \| `striped` \| `bordered` | `default` | Visual style |
+
 ## Development
 
 ```bash
@@ -459,14 +548,6 @@ npm run build
 npm run dev
 ```
 
-## Publishing
-
-```bash
-# Bump version in package.json, then:
-npm run build
-npm publish
-```
-
 ## Roadmap
 
 | Version | Components | Category |
@@ -476,7 +557,7 @@ npm publish
 | **v0.3.0** ✅ | `Select` `Checkbox` `Radio` `Switch` | Form components |
 | **v0.4.0** ✅ | `Modal/Dialog` `Drawer` `Tooltip` `Popover` | Overlay components |
 | **v0.5.0** ✅ | `Toast` `Alert` `Progress` `Skeleton` | Feedback components |
-| **v0.6.0** | `Table` `Tabs` `Accordion` | Data display |
+| **v0.6.0** ✅ | `Table` `Tabs` `Accordion` | Data display |
 | **v0.7.0** | Dark mode · Storybook docs | DX improvements |
 | **v0.8.0** | `Navbar` `Sidebar` `Breadcrumb` | Navigation |
 | **v0.9.0** | `DatePicker` `Combobox` `FileUpload` | Advanced inputs |
