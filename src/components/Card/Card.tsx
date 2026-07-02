@@ -3,11 +3,11 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../utils/cn'
 
 export const cardVariants = cva(
-  'rounded-(--radius-lg) bg-white text-(--color-neutral-900)',
+  'rounded-(--radius-lg) bg-(--bg,white) text-(--color-neutral-900)',
   {
     variants: {
       variant: {
-        elevated: 'shadow-md',
+        elevated: 'bg-(--bg,white) shadow-sm border border-(--color-neutral-200)',
         outlined: 'border border-(--color-neutral-200)',
         ghost:    'bg-(--color-neutral-50)',
       },

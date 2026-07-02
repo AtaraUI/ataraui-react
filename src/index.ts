@@ -151,3 +151,6 @@ export type {
   TableCellProps,
   TableCaptionProps,
 } from './components/Table'
+
+export { ThemeProvider, useTheme } from './components/Theme'
+export type { ThemeProviderProps, Theme } from './components/Theme'

@@ -52,6 +52,104 @@ Add the source and theme tokens to your `globals.css`:
 > }
 > ```
 
+## Dark Mode
+
+AtaraUI supports dark mode via CSS variables. Add these tokens to your `globals.css`:
+
+```css
+/* Light mode (default) */
+:root {
+  --color-neutral-50:  #FAFAFA;
+  --color-neutral-100: #F5F5F5;
+  --color-neutral-200: #E5E5E5;
+  --color-neutral-300: #D4D4D4;
+  --color-neutral-400: #A3A3A3;
+  --color-neutral-500: #737373;
+  --color-neutral-600: #525252;
+  --color-neutral-700: #404040;
+  --color-neutral-800: #262626;
+  --color-neutral-900: #171717;
+
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+
+  --bg:        #FFFFFF;
+  --bg-subtle: #FAFAFA;
+  --fg:        #171717;
+  --fg-subtle: #737373;
+  --border:    #E5E5E5;
+}
+
+/* Dark mode */
+[data-theme="dark"] {
+  --color-neutral-50:  #171717;
+  --color-neutral-100: #262626;
+  --color-neutral-200: #404040;
+  --color-neutral-300: #525252;
+  --color-neutral-400: #737373;
+  --color-neutral-500: #A3A3A3;
+  --color-neutral-600: #D4D4D4;
+  --color-neutral-700: #E5E5E5;
+  --color-neutral-800: #F5F5F5;
+  --color-neutral-900: #FAFAFA;
+
+  --bg:        #0A0A0A;
+  --bg-subtle: #171717;
+  --fg:        #FAFAFA;
+  --fg-subtle: #A3A3A3;
+  --border:    #262626;
+}
+```
+
+Then wrap your app with `ThemeProvider` and use the `useTheme` hook to toggle:
+
+```tsx
+// layout.tsx or _app.tsx
+import { ThemeProvider, Toaster, ToastProvider } from '@ataraui/ataraui-react'
+
+export default function Layout({ children }) {
+  return (
+    <ThemeProvider defaultTheme="system">
+      <ToastProvider>
+        {children}
+        <Toaster position="bottom-right" />
+      </ToastProvider>
+    </ThemeProvider>
+  )
+}
+```
+
+```tsx
+// anywhere in your app
+import { useTheme } from '@ataraui/ataraui-react'
+
+function ThemeToggle() {
+  const { resolvedTheme, toggleTheme } = useTheme()
+  return (
+    <button onClick={toggleTheme}>
+      {resolvedTheme === 'dark' ? '☀️ Light' : '🌙 Dark'}
+    </button>
+  )
+}
+```
+
+## ThemeProvider Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `defaultTheme` | `light` \| `dark` \| `system` | `system` | Initial theme |
+
+## useTheme
+
+| Value | Type | Description |
+|-------|------|-------------|
+| `theme` | `light` \| `dark` \| `system` | Current theme setting |
+| `resolvedTheme` | `light` \| `dark` | Actual resolved theme |
+| `setTheme` | `(theme: Theme) => void` | Set a specific theme |
+| `toggleTheme` | `() => void` | Toggle between light and dark |
+
 ## Usage
 
 ```tsx
@@ -111,6 +209,8 @@ import {
   TableHead,
   TableCell,
   TableCaption,
+  ThemeProvider,
+  useTheme,
 } from '@ataraui/ataraui-react'
 
 export default function Page() {
@@ -118,152 +218,154 @@ export default function Page() {
   const [drawerOpen, setDrawerOpen] = React.useState(false)
 
   return (
-    <ToastProvider>
-      <div>
-        <Badge variant="default">New</Badge>
+    <ThemeProvider defaultTheme="system">
+      <ToastProvider>
+        <div>
+          <Badge variant="default">New</Badge>
 
-        <Input label="Email" placeholder="you@example.com" hint="We will never spam you." />
+          <Input label="Email" placeholder="you@example.com" hint="We will never spam you." />
 
-        <Button variant="primary" size="md">Ship it</Button>
-        <Button variant="outline" isLoading>Loading...</Button>
+          <Button variant="primary" size="md">Ship it</Button>
+          <Button variant="outline" isLoading>Loading...</Button>
 
-        <Card variant="elevated">
-          <CardHeader>
-            <CardTitle>Card Title</CardTitle>
-            <CardDescription>Card description here.</CardDescription>
-          </CardHeader>
-          <CardContent>Content goes here.</CardContent>
-          <CardFooter>
-            <Button variant="primary" size="sm">Confirm</Button>
-            <Button variant="ghost" size="sm">Cancel</Button>
-          </CardFooter>
-        </Card>
+          <Card variant="elevated">
+            <CardHeader>
+              <CardTitle>Card Title</CardTitle>
+              <CardDescription>Card description here.</CardDescription>
+            </CardHeader>
+            <CardContent>Content goes here.</CardContent>
+            <CardFooter>
+              <Button variant="primary" size="sm">Confirm</Button>
+              <Button variant="ghost" size="sm">Cancel</Button>
+            </CardFooter>
+          </Card>
 
-        <Avatar src="https://github.com/ryo.png" alt="Ryo" size="md" />
-        <Avatar fallback="Ryo Kurniawan" size="md" />
+          <Avatar src="https://github.com/ryo.png" alt="Ryo" size="md" />
+          <Avatar fallback="Ryo Kurniawan" size="md" />
 
-        <Separator />
-        <Separator label="OR" />
+          <Separator />
+          <Separator label="OR" />
 
-        <Spinner size="md" />
-        <Spinner size="md" label="Loading data..." />
+          <Spinner size="md" />
+          <Spinner size="md" label="Loading data..." />
 
-        <Select
-          label="Country"
-          placeholder="Select a country..."
-          options={[
-            { value: 'id', label: 'Indonesia' },
-            { value: 'sg', label: 'Singapore' },
-          ]}
-        />
+          <Select
+            label="Country"
+            placeholder="Select a country..."
+            options={[
+              { value: 'id', label: 'Indonesia' },
+              { value: 'sg', label: 'Singapore' },
+            ]}
+          />
 
-        <Checkbox label="Accept terms" />
-        <Checkbox label="Remember me" description="Stay logged in for 30 days." />
+          <Checkbox label="Accept terms" />
+          <Checkbox label="Remember me" description="Stay logged in for 30 days." />
 
-        <RadioGroup
-          name="plan"
-          label="Billing Plan"
-          options={[
-            { value: 'monthly', label: 'Monthly' },
-            { value: 'yearly', label: 'Yearly' },
-          ]}
-        />
+          <RadioGroup
+            name="plan"
+            label="Billing Plan"
+            options={[
+              { value: 'monthly', label: 'Monthly' },
+              { value: 'yearly', label: 'Yearly' },
+            ]}
+          />
 
-        <Switch label="Notifications" description="Receive email notifications." />
+          <Switch label="Notifications" description="Receive email notifications." />
 
-        <Button onClick={() => setModalOpen(true)}>Open modal</Button>
-        <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
-          <ModalHeader onClose={() => setModalOpen(false)}>
-            <ModalTitle>Confirm action</ModalTitle>
-            <ModalDescription>This action can be reviewed before continuing.</ModalDescription>
-          </ModalHeader>
-          <ModalBody>Use modals for focused workflows.</ModalBody>
-          <ModalFooter>
-            <Button variant="ghost" onClick={() => setModalOpen(false)}>Cancel</Button>
-            <Button onClick={() => setModalOpen(false)}>Continue</Button>
-          </ModalFooter>
-        </Modal>
+          <Button onClick={() => setModalOpen(true)}>Open modal</Button>
+          <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
+            <ModalHeader onClose={() => setModalOpen(false)}>
+              <ModalTitle>Confirm action</ModalTitle>
+              <ModalDescription>This action can be reviewed before continuing.</ModalDescription>
+            </ModalHeader>
+            <ModalBody>Use modals for focused workflows.</ModalBody>
+            <ModalFooter>
+              <Button variant="ghost" onClick={() => setModalOpen(false)}>Cancel</Button>
+              <Button onClick={() => setModalOpen(false)}>Continue</Button>
+            </ModalFooter>
+          </Modal>
 
-        <Button variant="outline" onClick={() => setDrawerOpen(true)}>Open drawer</Button>
-        <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)} side="right">
-          <DrawerHeader onClose={() => setDrawerOpen(false)}>
-            <DrawerTitle>Settings</DrawerTitle>
-            <DrawerDescription>Manage preferences without leaving the page.</DrawerDescription>
-          </DrawerHeader>
-          <DrawerBody>Drawer content goes here.</DrawerBody>
-          <DrawerFooter>
-            <Button onClick={() => setDrawerOpen(false)}>Save</Button>
-          </DrawerFooter>
-        </Drawer>
+          <Button variant="outline" onClick={() => setDrawerOpen(true)}>Open drawer</Button>
+          <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)} side="right">
+            <DrawerHeader onClose={() => setDrawerOpen(false)}>
+              <DrawerTitle>Settings</DrawerTitle>
+              <DrawerDescription>Manage preferences without leaving the page.</DrawerDescription>
+            </DrawerHeader>
+            <DrawerBody>Drawer content goes here.</DrawerBody>
+            <DrawerFooter>
+              <Button onClick={() => setDrawerOpen(false)}>Save</Button>
+            </DrawerFooter>
+          </Drawer>
 
-        <Tooltip content="Helpful context" side="top">
-          <Button variant="outline">Hover me</Button>
-        </Tooltip>
+          <Tooltip content="Helpful context" side="top">
+            <Button variant="outline">Hover me</Button>
+          </Tooltip>
 
-        <Popover
-          side="bottom"
-          align="start"
-          content={({ close }) => (
-            <div className="flex w-56 flex-col gap-3">
-              <p className="font-medium">Account settings</p>
-              <Button size="sm" onClick={close}>Done</Button>
-            </div>
-          )}
-        >
-          <Button variant="outline">Open popover</Button>
-        </Popover>
+          <Popover
+            side="bottom"
+            align="start"
+            content={({ close }) => (
+              <div className="flex w-56 flex-col gap-3">
+                <p className="font-medium">Account settings</p>
+                <Button size="sm" onClick={close}>Done</Button>
+              </div>
+            )}
+          >
+            <Button variant="outline">Open popover</Button>
+          </Popover>
 
-        <Alert variant="success" onClose={() => {}}>
-          <AlertTitle>Success!</AlertTitle>
-          <AlertDescription>Your changes have been saved.</AlertDescription>
-        </Alert>
+          <Alert variant="success" onClose={() => {}}>
+            <AlertTitle>Success!</AlertTitle>
+            <AlertDescription>Your changes have been saved.</AlertDescription>
+          </Alert>
 
-        <Progress value={75} size="md" label="Uploading..." showLabel />
+          <Progress value={75} size="md" label="Uploading..." showLabel />
 
-        <Skeleton variant="circle" width={40} height={40} />
-        <Skeleton variant="text" width="60%" />
-        <Skeleton variant="rect" height={120} />
+          <Skeleton variant="circle" width={40} height={40} />
+          <Skeleton variant="text" width="60%" />
+          <Skeleton variant="rect" height={120} />
 
-        <Tabs defaultValue="account">
-          <TabsList>
-            <TabsTrigger value="account">Account</TabsTrigger>
-            <TabsTrigger value="password">Password</TabsTrigger>
-          </TabsList>
-          <TabsContent value="account">Account content here.</TabsContent>
-          <TabsContent value="password">Password content here.</TabsContent>
-        </Tabs>
+          <Tabs defaultValue="account">
+            <TabsList>
+              <TabsTrigger value="account">Account</TabsTrigger>
+              <TabsTrigger value="password">Password</TabsTrigger>
+            </TabsList>
+            <TabsContent value="account">Account content here.</TabsContent>
+            <TabsContent value="password">Password content here.</TabsContent>
+          </Tabs>
 
-        <Accordion type="single" defaultValue="item-1">
-          <AccordionItem value="item-1">
-            <AccordionTrigger>What is AtaraUI?</AccordionTrigger>
-            <AccordionContent>A calm, composable component library.</AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="item-2">
-            <AccordionTrigger>Is it free?</AccordionTrigger>
-            <AccordionContent>Yes, MIT licensed.</AccordionContent>
-          </AccordionItem>
-        </Accordion>
+          <Accordion type="single" defaultValue="item-1">
+            <AccordionItem value="item-1">
+              <AccordionTrigger>What is AtaraUI?</AccordionTrigger>
+              <AccordionContent>A calm, composable component library.</AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-2">
+              <AccordionTrigger>Is it free?</AccordionTrigger>
+              <AccordionContent>Yes, MIT licensed.</AccordionContent>
+            </AccordionItem>
+          </Accordion>
 
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Role</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <TableRow>
-              <TableCell>Ryo Kurniawan</TableCell>
-              <TableCell>ryo@example.com</TableCell>
-              <TableCell>Admin</TableCell>
-            </TableRow>
-          </TableBody>
-          <TableCaption>A list of your team members.</TableCaption>
-        </Table>
-      </div>
-      <Toaster position="bottom-right" />
-    </ToastProvider>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Name</TableHead>
+                <TableHead>Email</TableHead>
+                <TableHead>Role</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              <TableRow>
+                <TableCell>Ryo Kurniawan</TableCell>
+                <TableCell>ryo@example.com</TableCell>
+                <TableCell>Admin</TableCell>
+              </TableRow>
+            </TableBody>
+            <TableCaption>A list of your team members.</TableCaption>
+          </Table>
+        </div>
+        <Toaster position="bottom-right" />
+      </ToastProvider>
+    </ThemeProvider>
   )
 }
 ```
@@ -294,6 +396,7 @@ export default function Page() {
 | `Tabs` | `default` `outline` `pills` | ✅ Ready |
 | `Accordion` | `default` `ghost` `outlined` | ✅ Ready |
 | `Table` | `default` `striped` `bordered` | ✅ Ready |
+| `ThemeProvider` + `useTheme` | `light` `dark` `system` | ✅ Ready |
 
 ## Button Props
 
@@ -548,6 +651,14 @@ npm run build
 npm run dev
 ```
 
+## Publishing
+
+```bash
+# Bump version in package.json, then:
+npm run build
+npm publish --access public
+```
+
 ## Roadmap
 
 | Version | Components | Category |
@@ -558,7 +669,7 @@ npm run dev
 | **v0.4.0** ✅ | `Modal/Dialog` `Drawer` `Tooltip` `Popover` | Overlay components |
 | **v0.5.0** ✅ | `Toast` `Alert` `Progress` `Skeleton` | Feedback components |
 | **v0.6.0** ✅ | `Table` `Tabs` `Accordion` | Data display |
-| **v0.7.0** | Dark mode · Storybook docs | DX improvements |
+| **v0.7.0** ✅ | Dark mode · `ThemeProvider` · `useTheme` | DX improvements |
 | **v0.8.0** | `Navbar` `Sidebar` `Breadcrumb` | Navigation |
 | **v0.9.0** | `DatePicker` `Combobox` `FileUpload` | Advanced inputs |
 | **v1.0.0** 🎯 | API stable · Full docs · A11y tested · ataraui.com live | Stable release |

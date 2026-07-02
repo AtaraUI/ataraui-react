@@ -80,7 +80,7 @@ export const toastVariants = cva(
   {
     variants: {
       variant: {
-        default:     'border-(--color-neutral-200) bg-white text-(--color-neutral-800)',
+        default:     'border-(--color-neutral-200) bg-(--bg,white) text-(--color-neutral-800)',
         success:     'border-green-200 bg-green-50 text-green-900',
         warning:     'border-yellow-200 bg-yellow-50 text-yellow-900',
         destructive: 'border-red-200 bg-red-50 text-red-900',
